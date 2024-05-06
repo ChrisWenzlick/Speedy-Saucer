@@ -1,16 +1,68 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqseq1mo3jy4b"]
+[gd_scene load_steps=6 format=3 uid="uid://dqseq1mo3jy4b"]
 
+[ext_resource type="Script" path="res://scenes/level_1.gd" id="1_qj7r5"]
 [ext_resource type="Texture2D" uid="uid://cbjtcwam0cl4b" path="res://images/purple.png" id="1_udqss"]
 [ext_resource type="PackedScene" uid="uid://fyi521w1u3l6" path="res://scenes/player.tscn" id="2_fn3su"]
+[ext_resource type="PackedScene" uid="uid://dfuburj4r8xbn" path="res://scenes/maze.tscn" id="3_0irdw"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kaq7y"]
+font_size = 10
 
 [node name="Level1" type="Node2D"]
+script = ExtResource("1_qj7r5")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Graphics" type="Node" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Graphics"]
+layer = -10
+
+[node name="Background" type="TextureRect" parent="Graphics/CanvasLayer"]
 z_index = -100
-offset_right = 1152.0
-offset_bottom = 648.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("1_udqss")
 stretch_mode = 1
 
+[node name="Start Label" type="Label" parent="Graphics"]
+z_index = -5
+offset_left = 556.0
+offset_top = 218.0
+offset_right = 596.0
+offset_bottom = 241.0
+text = "START"
+
+[node name="End Label" type="Label" parent="Graphics"]
+z_index = -5
+offset_left = 230.0
+offset_top = 65.0
+offset_right = 278.0
+offset_bottom = 91.0
+text = "END"
+
+[node name="Tutorial Label" type="Label" parent="Graphics"]
+z_index = -5
+offset_left = 361.0
+offset_top = 266.0
+offset_right = 546.0
+offset_bottom = 334.0
+text = "Use the arrow keys or WASD to move.
+
+Get to the end of the maze.
+
+You will be sent back to the start if you touch the maze walls.
+
+Good luck!"
+label_settings = SubResource("LabelSettings_kaq7y")
+autowrap_mode = 2
+
 [node name="Player" parent="." instance=ExtResource("2_fn3su")]
-position = Vector2(649, 301)
+position = Vector2(578, 284)
+
+[node name="Maze" parent="." instance=ExtResource("3_0irdw")]
+z_index = -10
+position = Vector2(583, 283)
+
+[connection signal="body_exited" from="Maze" to="." method="_on_maze_body_exited"]
